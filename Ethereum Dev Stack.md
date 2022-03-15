@@ -61,4 +61,6 @@ Create a new NPM project
 
     $ npm init -y
    
-  
+After setting up `truffle.config.js`, deploy using:
+
+    $ truffle migrate --network development
