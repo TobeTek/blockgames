@@ -7,7 +7,7 @@ A brief comparison of three smart contract development frameworks.
 ### Truffle
 [![Truffle](https://res.cloudinary.com/practicaldev/image/fetch/s--6c327WAV--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z0ejoluacb2it0o368x2.PNG)](https://trufflesuite.com/)
 Truffle is based on JavaScript, and has been around for a while.
-1.  Truffle with 12k Github stars has a built-in smart contract compilation, linking, deployment and binary management(managing binary files).
+1.  Truffle with 12k Github stars has a built-in smart contract compilation, linking, and deployment.
 2.  The framework supports scripting and is scalable.
 3.  It also provides Network management for deploying to any number of public & private networks.
 4.  It has the features of Package management with EthPM & NPM, using the ERC190 standard.
