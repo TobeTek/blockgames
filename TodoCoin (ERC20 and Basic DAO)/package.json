@@ -1,5 +1,5 @@
 {
-  "name": "blockgames-erc20",
+  "name": "todocoin",
   "version": "1.0.0",
   "description": "",
   "main": "truffle-config.js",
@@ -13,7 +13,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@truffle/hdwallet-provider": "2.0.4",
-    "dotenv": "^16.0.0"
+    "@openzeppelin/contracts": "4.5.0"
   }
 }

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Truffle - Mini Dapp</title>
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.1/css/tachyons.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="./js/app.js" type="text/javascript"></script>
+
+</head>
+<script>
+    let web3, contractInstance, networkID;
+    let accounts = [];
+
+    const ethEnabled = () => {
+        if (window.ethereum) {
+            console.log("Trying yo login");
+            window.web3 = new Web3(window.ethereum);
+            window.networkID = window.ethereum.networkVersion;
+            console.log("Done");
+            return true;
+        }
+        return false;
+    }
+
+    if (!ethEnabled()) {
+        alert("Please install MetaMask to use this dApp!");
+    } else {
+        window.contractInstance = new window.web3.eth.Contract(tokenABI, '0xdeD4881d51cdC01b7e28E338dF56378bbBC77794');
+        // Live Code
+        refreshAccountBalance(contractInstance);
+    }
+
+    async function connectWallet() {
+        window.accounts = await ethereum.request({
+            method: 'eth_requestAccounts'
+        });
+        console.log("Successfully connected to MetaMask wallet");
+        console.log(window.ethereum.networkVersion, 'window.ethereum.networkVersion');
+        window.networkID = window.ethereum.networkVersion;
+        refreshAccountBalance(window.contractInstance);
+
+    }
+
+
+    async function setDefaultAddress() {
+        await window.web3.eth.requestAccounts((error, results) => {
+            if (error != null) {
+                alert("Sorry, something went wrong. We couldn't fetch youraccounts.");
+                return;
+            }
+            if (!results.length) {
+                alert("Sorry, no errors, but we couldn't get any accounts - Make sure your Ethereum client is configured correctly.");
+                return;
+            }
+            console.log(results);
+            window.accounts = results;
+            document.getElementById("accountAddress").innerHTML = window.accounts[0];
+        })
+        return Promise.resolve(true);
+    }
+
+    async function refreshAccountBalance() {
+        getNetworkName();
+        await setDefaultAddress();
+        if (window.accounts[0] != null) {
+            console.log("Account:  " + accounts[0]);
+            window.contractInstance.methods.balanceOf(window.accounts[0]).call({
+                    from: accounts[0]
+                },
+                (error, results) => {
+                    console.log("Updating");
+                    console.log(results);
+                    console.log(error);
+                    document.getElementById("accountBalance").innerHTML = results;
+                    document.getElementById("accountBalance").style.color = "white";
+                });
+
+        } else {
+            console.log("Web3 isn't supported on this browser.");
+        }
+
+    }
+
+    function updateTransactionStatus(statusMessage) {
+        document.getElementById("transactionStatus").innerHTML = statusMessage;
+    }
+
+    function transferTokens() {
+        let todoCoinReward = document.getElementById("todoCoinReward").value;
+        let doer = document.getElementById("doer").value;
+        console.log("Calling transfer with " + todoCoinReward + doer);
+
+        window.contractInstance.methods.transfer(doer, todoCoinReward).send({
+            from: ethereum.selectedAddress
+        }).on('transactionHash', (hash) => {
+            console.log(hash);
+            refreshAccountBalance(contractInstance);
+            updateTransactionStatus("Transaction Successful");
+        }).catch((e) => {
+            updateTransactionStatus("Transaction was unsuccessful");
+        });
+    }
+
+    function getNetworkName() {
+        window.web3.eth.net.getId((err, results) => {
+            console.log(results);
+        })
+    }
+</script>
+
+<body class="sans-serif pa4">
+    <!-- ACCOUNT ADDRESS  -->
+    <div class="absolute right-1 top-1 tc pt4 left f1 pb5 bg-black-80 w10 h3 shadow-2 br4 white">
+        <div class="f5 mt1">
+            <span id="accountAddress" class="b">0xCODE000000000</span>
+        </div>
+    </div>
+
+    <!-- ACCOUNT BALANCE -->
+    <div class="right-1 top-1 tc pt4 center f5 pb3 bg-black-80 w5 h4 shadow-2 br4 white">
+        TodoCoin (TCN)
+        <div class="f3 mt3">
+            <span id="accountBalance" class="b">000000000</span>
+        </div>
+    </div>
+
+    <!-- CONNECT WALLET BUTTON -->
+    <button class="absolute left-1 top-1 white pa3 ph4 bg-green br2 f3 b pointer" onclick="connectWallet()">Connect Wallet</button>
+
+
+    <div class="tc f2 mt6 near-black">Reward a doer for their hard work - send them TodoCoin
+    </div>
+
+    <!-- CENTRAL UI/COMMAND PANEL -->
+    <div class="pa4 mt4 bg-white shadow-1 br2 tc mw7 center">
+        <div class="f3 dark-green">Send TodoCoin</div>
+        <form class="pt3 pb4 ph5-l black-60">
+            <fieldset class="ba b--transparent ph0 mh0">
+                <div class="mt3 ph3 pa0-l">
+                    <input class="pa3 input-reset ba b--black-30 br2 bg-white-smoke w-100" type="number" id="todoCoinReward" placeholder="Amount in TodoCoin">
+                </div>
+                <div class="mt3 ph3 pa0-l">
+                    <input class="pa3 input-reset ba b--black-30 br2 bg-white-smoke w-100" type="text" id="doer" placeholder="Address">
+                </div>
+            </fieldset>
+        </form>
+        <button class="white pa3 ph4 bg-green br2 f3 b pointer" onclick="transferTokens()">→</button>
+    </div>
+    <div id="transactionStatus" class="pt4"></div>
+</body>
+
+</html>
