@@ -9,15 +9,15 @@
 
 </head>
 <script>
+    // Declare toplevel variables
     let web3, contractInstance, networkID;
     let accounts = [];
 
+    // Login/Connect to MetaMask
     const ethEnabled = () => {
+
         if (window.ethereum) {
-            console.log("Trying yo login");
             window.web3 = new Web3(window.ethereum);
-            window.networkID = window.ethereum.networkVersion;
-            console.log("Done");
             return true;
         }
         return false;
@@ -27,7 +27,6 @@
         alert("Please install MetaMask to use this dApp!");
     } else {
         window.contractInstance = new window.web3.eth.Contract(tokenABI, '0xdeD4881d51cdC01b7e28E338dF56378bbBC77794');
-        // Live Code
         refreshAccountBalance(contractInstance);
     }
 
@@ -36,17 +35,14 @@
             method: 'eth_requestAccounts'
         });
         console.log("Successfully connected to MetaMask wallet");
-        console.log(window.ethereum.networkVersion, 'window.ethereum.networkVersion');
-        window.networkID = window.ethereum.networkVersion;
         refreshAccountBalance(window.contractInstance);
-
     }
 
 
     async function setDefaultAddress() {
         await window.web3.eth.requestAccounts((error, results) => {
             if (error != null) {
-                alert("Sorry, something went wrong. We couldn't fetch youraccounts.");
+                alert("Sorry, something went wrong. We couldn't fetch your accounts.");
                 return;
             }
             if (!results.length) {
@@ -147,6 +143,8 @@
         </form>
         <button class="white pa3 ph4 bg-green br2 f3 b pointer" onclick="transferTokens()">→</button>
     </div>
+
+    <!-- TRANSACTION STATUS -->
     <div id="transactionStatus" class="pt4"></div>
 </body>
 
