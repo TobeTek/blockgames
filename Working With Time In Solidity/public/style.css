@@ -1,0 +1,15 @@
+body{
+  font-size: large;
+}
+#main {
+  margin-top: 6em;
+}
+
+#content {
+  margin-top: 3em;
+}
+
+.token-input{
+  padding: 3rem 200px 3rem 500px;
+
+}

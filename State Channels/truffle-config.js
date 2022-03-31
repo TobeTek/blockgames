@@ -2,6 +2,7 @@
 //
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
+// const Web3 = require("web3");
 
 module.exports = {
     // $ truffle test --network <network-name>
@@ -12,15 +13,18 @@ module.exports = {
         // You should run a client (like ganache-cli, geth or parity) in a separate terminal
         // tab if you use this network and you must also set the `host`, `port` and `network_id`
         // options below to some value.
-        //
+        
+        // GANACHE
         development: {
             host: "127.0.0.1", // Localhost (default: none)
             port: 7545, // Standard Ethereum port (default: none)
             network_id: "*", // Any network (default: none)
         },
+        // Local Geth Instance
         geth42: {
+            // provider:  ()=>(new Web3.providers.HttpProvider ('http://127.0.0.1:8545')),
             host: "127.0.0.1", // Localhost (default: none)
-            port: 8546, // Standard Ethereum port (default: none)
+            port: 8545, // Standard Ethereum port (default: none)
             network_id: "*", // Any network (default: none)
         },
         // Another network with more advanced options...
