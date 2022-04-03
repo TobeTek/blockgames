@@ -128,6 +128,8 @@ For slow connections:
 
     $ export UV_THREADPOOL_SIZE=128
 
-StakeForRewards
+**StakeForRewards**
+
 Contract Address: https://rinkeby.etherscan.io/address/0xa6A26C32c6Cec92907e2Dd69B5Fb926CE9627fa0#code
+
 UI: https://dapper-bienenstitch-4563ed.netlify.app/
