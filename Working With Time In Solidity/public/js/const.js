@@ -1,6 +1,7 @@
 const BN = Web3.utils.BN;
 
-const contractAddress = "0x20F65Bc84ba4ba379ccdDC5FA81202930e5Ea8Fc";
+// const contractAddress = "0x20F65Bc84ba4ba379ccdDC5FA81202930e5Ea8Fc"; // Ganache
+const contractAddress = "0xa6A26C32c6Cec92907e2Dd69B5Fb926CE9627fa0";
 
 const contractABI = [
   {
